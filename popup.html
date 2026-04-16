@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 280px;
+      background: #080809;
+      font-family: 'DM Sans', sans-serif;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Ambient glow that pulses when active ── */
+    .ambient {
+      position: fixed;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      top: -120px;
+      left: -60px;
+      background: radial-gradient(circle, rgba(210, 25, 35, 0.18) 0%, transparent 65%);
+      pointer-events: none;
+      transition: opacity 0.8s ease;
+      opacity: 0;
+    }
+    .ambient.on { opacity: 1; animation: pulse 3s ease-in-out infinite; }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50%       { transform: scale(1.08); opacity: 1; }
+    }
+
+    /* ── Noise texture overlay ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    /* ── Layout ── */
+    .wrap {
+      padding: 22px 20px 18px;
+      position: relative;
+    }
+
+    /* ── Header ── */
+    .header {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .fyp-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 46px;
+      line-height: 0.9;
+      color: #fff;
+      letter-spacing: 3px;
+    }
+
+    .fyp-sub {
+      font-size: 9.5px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.22);
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      line-height: 1.3;
+      padding-bottom: 6px;
+    }
+
+    /* ── Glass card ── */
+    .card {
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+      padding: 16px 18px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.5s, box-shadow 0.5s;
+    }
+
+    .card.on {
+      border-color: rgba(210, 25, 35, 0.28);
+      box-shadow:
+        0 0 24px rgba(210, 25, 35, 0.07),
+        inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+
+    /* glass top sheen */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 10%; right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+    }
+
+    /* ── Toggle row ── */
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .row-label {
+      font-size: 13px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.65);
+      letter-spacing: 0.1px;
+    }
+
+    /* ── Toggle switch ── */
+    .switch { position: relative; display: inline-block; width: 46px; height: 25px; cursor: pointer; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+
+    .track {
+      position: absolute;
+      inset: 0;
+      border-radius: 25px;
+      background: rgba(255,255,255,0.09);
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: background 0.35s, border-color 0.35s;
+    }
+
+    input:checked ~ .track {
+      background: #d01922;
+      border-color: #d01922;
+    }
+
+    .thumb {
+      position: absolute;
+      top: 3px; left: 3px;
+      width: 19px; height: 19px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    input:checked ~ .thumb { transform: translateX(21px); }
+
+    /* ── Status pill ── */
+    .status {
+      margin-top: 11px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .status-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      transition: background 0.4s;
+      flex-shrink: 0;
+    }
+
+    .status-dot.on { background: #d01922; box-shadow: 0 0 6px rgba(208, 25, 34, 0.7); }
+
+    .status-text {
+      font-size: 11px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.3px;
+      transition: color 0.4s;
+    }
+
+    .status-text.on { color: rgba(210, 80, 80, 0.85); }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: rgba(255,255,255,0.05);
+      margin: 14px 0;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-label {
+      font-size: 9.5px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.13);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .platforms {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .plat-badge {
+      font-size: 9px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.18);
+      letter-spacing: 0.5px;
+      padding: 2px 6px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient" id="ambient"></div>
+
+  <div class="wrap">
+    <header class="header">
+      <span class="fyp-title">FYP</span>
+      <span class="fyp-sub">Free YouTube<br>Premium</span>
+    </header>
+
+    <div class="card" id="card">
+      <div class="row">
+        <span class="row-label">Turn on Premium</span>
+        <label class="switch">
+          <input type="checkbox" id="toggle">
+          <div class="track"></div>
+          <div class="thumb"></div>
+        </label>
+      </div>
+      <div class="status">
+        <span class="status-dot" id="dot"></span>
+        <span class="status-text" id="status-text">Inactive</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <footer class="footer">
+      <span class="footer-label">Active on</span>
+      <div class="platforms">
+        <span class="plat-badge">YouTube</span>
+        <span class="plat-badge">Music</span>
+      </div>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
