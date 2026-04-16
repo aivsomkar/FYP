@@ -17,44 +17,106 @@
 ## UI
 
 <div align="center">
-  <img src="screenshot.png" width="480" alt="FYP popup UI" />
+  <img src="screenshot.png" width="320" alt="FYP popup UI" />
 </div>
 
 ---
 
-## Install manually (no Chrome Web Store needed)
+## Install manually (No Chrome Web Store needed)
 
-> Takes about 60 seconds.
+> **No sign-up. No store approval. Takes about 2 minutes.**
 
-### Step 1 — Download the files
+---
 
-Click **Code → Download ZIP** on this page, then unzip it anywhere on your computer.
+### Step 1 — Download the extension files
 
-&nbsp;&nbsp;&nbsp;&nbsp;*Or clone it:*
-```bash
-git clone https://github.com/aivsomkar/FYP.git
-```
+Go to the top of this page and click the green **Code** button, then click **Download ZIP**.
 
-### Step 2 — Open Chrome Extensions
+<!-- SCREENSHOT: Green "Code" button dropdown on GitHub showing "Download ZIP" option -->
+![Download ZIP](images/step1-download.png)
 
-Open a new tab and go to:
+Once downloaded, **unzip** the file. You'll get a folder called `FYP-main` — remember where you saved it.
+
+---
+
+### Step 2 — Open Chrome's Extensions page
+
+Open Google Chrome and type the following into the address bar, then press **Enter**:
+
 ```
 chrome://extensions
 ```
 
-### Step 3 — Enable Developer Mode
+<!-- SCREENSHOT: Chrome address bar with chrome://extensions typed in -->
+![Chrome Extensions URL](images/step2-url.png)
 
-Toggle **Developer mode** on in the top-right corner of the page.
+---
 
-<img src="https://i.imgur.com/placeholder-devmode.png" width="300" alt="Developer mode toggle" />
+### Step 3 — Turn on Developer Mode
 
-### Step 4 — Load the extension
+In the **top-right corner** of the Extensions page, you'll see a toggle labelled **Developer mode**. Click it to turn it **ON**. The page will refresh and show extra buttons at the top.
 
-Click **Load unpacked**, then select the folder you unzipped (the one containing `manifest.json`).
+<!-- SCREENSHOT: Extensions page with Developer Mode toggle highlighted in top-right corner -->
+![Developer Mode toggle](images/step3-devmode.png)
 
-### Step 5 — Done
+---
 
-The **FYP** icon will appear in your Chrome toolbar. Click it to toggle ad blocking on or off.
+### Step 4 — Click "Load unpacked"
+
+After enabling Developer Mode, a button labelled **Load unpacked** will appear in the top-left. Click it.
+
+<!-- SCREENSHOT: "Load unpacked" button visible after enabling developer mode -->
+![Load Unpacked button](images/step4-loadunpacked.png)
+
+---
+
+### Step 5 — Select the FYP folder
+
+A file picker will open. Navigate to the folder you unzipped in Step 1 (`FYP-main`). Select the **entire folder** (not an individual file inside it) and click **Open** / **Select Folder**.
+
+> ⚠️ Make sure you select the folder that contains the `manifest.json` file directly inside it — not a parent folder.
+
+<!-- SCREENSHOT: File picker showing the FYP-main folder selected -->
+![Select Folder](images/step5-selectfolder.png)
+
+---
+
+### Step 6 — Extension is installed
+
+The **FYP** card will appear on the Extensions page, showing it's active.
+
+<!-- SCREENSHOT: FYP extension card on chrome://extensions page -->
+![Extension installed](images/step6-installed.png)
+
+---
+
+### Step 7 — Pin the extension to your toolbar
+
+Click the **puzzle piece icon** (🧩) in the top-right of Chrome, find **FYP — Free YouTube Premium** in the list, and click the **pin icon** to pin it to your toolbar.
+
+<!-- SCREENSHOT: Chrome extensions dropdown with pin icon next to FYP -->
+![Pin to toolbar](images/step7-pin.png)
+
+---
+
+### Step 8 — You're all set!
+
+The **FYP icon** will now appear in your Chrome toolbar. Click it to open the toggle.
+
+Head to [youtube.com](https://youtube.com) or [music.youtube.com](https://music.youtube.com) and play any video — ads will be skipped automatically.
+
+<div align="center">
+  <img src="screenshot.png" width="320" alt="FYP popup UI" />
+</div>
+
+---
+
+## Updating the extension
+
+When a new version is released:
+1. Download the new ZIP and unzip it (overwrite the old folder)
+2. Go to `chrome://extensions`
+3. Find FYP and click the **refresh icon** on its card
 
 ---
 
